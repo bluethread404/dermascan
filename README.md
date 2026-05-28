@@ -157,36 +157,24 @@ PROJET AI/
 
 ---
 
-##  Installation
+## Installation
 
 ### 1. Cloner le projet
-
 ```bash
 git clone https://github.com/bluethread404/dermascan.git
 cd dermascan
-```
 
 ---
 
-### 2. Créer un environnement virtuel
-
-```bash
 python -m venv venv
-```
-
-Activation :
-
-```bash
 venv\Scripts\activate
-```
+
 
 ---
 
 ### 3. Installer les dépendances
 
-```bash
 pip install -r requirements.txt
-```
 
 ---
 
