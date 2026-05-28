@@ -160,7 +160,7 @@ PROJET AI/
 ## Installation
 
 ### 1. Cloner le projet
-```bash
+
 git clone https://github.com/bluethread404/dermascan.git
 cd dermascan
 
@@ -182,9 +182,7 @@ pip install -r requirements.txt
 
 Placer le fichier :
 
-```
 model/vgg16_skin_cancer.h5
-```
 
 ---
 
@@ -192,20 +190,19 @@ model/vgg16_skin_cancer.h5
 
 Importer le script SQL :
 
-```bash
 mysql -u root -p < mysql.sql
-```
+
 
 Configurer la connexion dans `app.py` :
 
-```python
+python
 db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="VOTRE_MOT_DE_PASSE",
     database="skin_cancer_db1"
 )
-```
+
 
 ---
 
