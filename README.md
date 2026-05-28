@@ -163,19 +163,6 @@ PROJET AI/
 
 ---
 
-##  Télécharger le modèle IA
-
-Le modèle VGG16 utilisé par DermaScan est disponible via Google Drive :
- [Télécharger le modèle IA](https://drive.google.com/drive/folders/18pLJRQe90d3akGIzFfAckJZFsxXgdQz8)
-
-Après téléchargement, placez le fichier `.h5` dans le dossier suivant :
-
-```bash
-model/vgg16_skin_cancer.h5
-```
-> Le modèle est hébergé séparément du dépôt GitHub en raison de sa taille.
-
-
 ##  Installation
 
 ### 1. Cloner le dépôt
@@ -209,15 +196,15 @@ pip install -r requirements.txt
 
 ### 4. Ajouter le modèle IA
 
-Placez le fichier modèle à l'emplacement suivant :
+Le modèle VGG16 utilisé par DermaScan est disponible via Google Drive :
+ [Télécharger le modèle IA](https://drive.google.com/drive/folders/18pLJRQe90d3akGIzFfAckJZFsxXgdQz8)
 
-```
+Après téléchargement, placez le fichier `.h5` dans le dossier suivant :
+
+```bash
 model/vgg16_skin_cancer.h5
 ```
-
-> Le modèle n'est pas inclus dans ce dépôt en raison de sa taille. Contactez l'auteur pour l'obtenir.
-
----
+> Le modèle est hébergé séparément du dépôt GitHub en raison de sa taille.
 
 ##  Configuration de la base de données
 
