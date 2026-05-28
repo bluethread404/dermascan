@@ -1,21 +1,21 @@
 Voici le contenu du fichier `README.md` prêt à être enregistré.
 
 ```markdown
-# 🔬 DermaScan
+# DermaScan
 
 > Système intelligent d’aide au dépistage dermatologique basé sur l’intelligence artificielle pour l’analyse préliminaire des lésions cutanées.
 
-🔗 **Lien du projet GitHub :** [https://github.com/bluethread404/dermascan](https://github.com/bluethread404/dermascan)
+ **Lien du projet GitHub :** [https://github.com/bluethread404/dermascan](https://github.com/bluethread404/dermascan)
 
 ---
 
-## 📸 Aperçu
+## Aperçu
 
 ![Dashboard](docs/screenshots/dashboard/dashboard_page.png)
 
 ---
 
-## 📋 Table des matières
+##  Table des matières
 
 * [Aperçu du projet](#aperçu-du-projet)
 * [Fonctionnalités](#fonctionnalités)
@@ -32,7 +32,7 @@ Voici le contenu du fichier `README.md` prêt à être enregistré.
 
 ---
 
-## 🧠 Aperçu du projet
+##  Aperçu du projet
 
 DermaScan est une application web médicale intelligente permettant l’analyse de lésions cutanées à partir d’images dermoscopiques.
 
@@ -48,15 +48,15 @@ L’utilisateur peut :
 
 ---
 
-## ⚙️ Fonctionnalités
+## Fonctionnalités
 
-### 🔐 Authentification sécurisée
+### Authentification sécurisée
 
 * Inscription / connexion utilisateur
 * Mots de passe hachés avec Werkzeug
 * Gestion de sessions Flask
 
-### 🧠 Intelligence artificielle
+### Intelligence artificielle
 
 * Modèle **VGG16** entraîné pour la classification :
 
@@ -64,12 +64,12 @@ L’utilisateur peut :
   * Lésion maligne
 * Affichage du score de confiance
 
-### 📋 Questionnaire clinique dynamique
+### Questionnaire clinique dynamique
 
 * Activé uniquement si suspicion de malignité
 * Évaluation complémentaire des symptômes
 
-### 📊 Évaluation du risque
+### Évaluation du risque
 
 * Niveau de risque :
 
@@ -78,14 +78,14 @@ L’utilisateur peut :
   * Élevé
 * Recommandations associées
 
-### 👥 Gestion des patients
+### Gestion des patients
 
 * Historique des analyses
 * Stockage des résultats et images
 
 ---
 
-## 🔄 Pipeline IA
+##  Pipeline IA
 
 1. Téléversement de l’image
 2. Prétraitement
@@ -97,7 +97,7 @@ L’utilisateur peut :
 
 ---
 
-## 🛠️ Technologies utilisées
+##  Technologies utilisées
 
 * **Backend :** Python, Flask
 * **IA :** TensorFlow, Keras (VGG16)
@@ -108,7 +108,7 @@ L’utilisateur peut :
 
 ---
 
-## 📁 Structure du projet
+##  Structure du projet
 
 ```
 PROJET AI/
@@ -156,7 +156,7 @@ PROJET AI/
 
 ---
 
-## 🚀 Installation
+##  Installation
 
 ### 1. Cloner le projet
 
@@ -199,7 +199,7 @@ model/vgg16_skin_cancer.h5
 
 ---
 
-## 🗄️ Configuration de la base de données
+##  Configuration de la base de données
 
 Importer le script SQL :
 
@@ -220,7 +220,7 @@ db = mysql.connector.connect(
 
 ---
 
-## ▶️ Lancement de l’application
+##  Lancement de l’application
 
 ```bash
 python app.py
@@ -234,7 +234,7 @@ http://localhost:5000
 
 ---
 
-## 🧪 Utilisation
+##  Utilisation
 
 1. Créer un compte / se connecter
 2. Accéder au tableau de bord
@@ -246,7 +246,7 @@ http://localhost:5000
 
 ---
 
-## 🚀 Améliorations futures
+##  Améliorations futures
 
 * Déploiement cloud (Render / Railway)
 * API REST sécurisée
@@ -257,7 +257,7 @@ http://localhost:5000
 
 ---
 
-## ⚠️ Avertissement médical
+##  Avertissement médical
 
 DermaScan est un outil d’aide au dépistage préliminaire.
 
@@ -265,7 +265,7 @@ Il ne remplace en aucun cas un diagnostic médical professionnel.
 
 ---
 
-## 📜 Licence
+##  Licence
 
 Projet réalisé à des fins éducatives et académiques.
 ```
