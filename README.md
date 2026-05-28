@@ -108,10 +108,11 @@ L’utilisateur peut :
 
 ---
 
-##  Structure du projet
+## Structure du projet
 
-```
-PROJET AI/;
+
+
+PROJET AI/
 │
 ├── docs/
 │   ├── screenshots/
@@ -152,7 +153,7 @@ PROJET AI/;
 ├── mysql.sql
 ├── requirements.txt
 └── README.md
-```
+
 
 ---
 
