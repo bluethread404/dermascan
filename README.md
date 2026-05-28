@@ -111,7 +111,7 @@ L’utilisateur peut :
 ##  Structure du projet
 
 ```
-PROJET AI/
+PROJET AI/;
 │
 ├── docs/
 │   ├── screenshots/
