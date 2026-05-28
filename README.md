@@ -121,7 +121,7 @@ PROJET AI/
 │   │       ├── questions_du_quiz/
 │   │       ├── resultat_du_quiz/
 │   │       ├── benign_result.png
-│   │       └── mlignant_result.png
+│   │       └── malignant_result.png
 │   └── demo.mp4
 │
 ├── model/
