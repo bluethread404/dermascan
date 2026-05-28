@@ -1,0 +1,48 @@
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', 'Segoe UI', Arial, sans-serif;
+}
+
+/* Bootstrap alert refinements */
+.alert {
+  font-size: 13px;
+  border-radius: 9px;
+  padding: 10px 14px;
+  border: none;
+}
+
+#loading-screen{
+  position:fixed;
+  inset:0;
+  background:rgba(26,46,68,.92);
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:white;
+}
+
+.q-card,
+.result-card,
+.risk-card{
+    animation:fadeUp .5s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.alert-success { background: #edfbf3; color: #1a6e42; }
+.alert-danger   { background: #fff0f0; color: #b83232; }
+.alert-warning  { background: #fef9ec; color: #7a6523; }
+.alert-info     { background: #eaf1fb; color: #1e5899; }

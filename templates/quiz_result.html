@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DermaScan — Évaluation du risque</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f7f5f0; min-height: 100vh; }
+
+  header {
+    background: #fff;
+    border-bottom: 1px solid #eaecf0;
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .brand { font-family: 'DM Serif Display', serif; font-size: 18px; color: #1a2e44; }
+  .brand span { color: #6fcf97; }
+
+  main { max-width: 660px; margin: 52px auto; padding: 0 24px; }
+
+  .page-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: #1a2e44; margin-bottom: 6px; }
+  .page-sub { font-size: 13px; color: #8a9ab0; margin-bottom: 32px; }
+
+  .risk-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #eaecf0;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .risk-header { padding: 28px 32px 24px; border-bottom: 1px solid #eaecf0; }
+
+  .risk-level-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #8a9ab0;
+    margin-bottom: 12px;
+  }
+
+  .risk-verdict {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .risk-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .risk-name { font-size: 22px; font-weight: 500; color: #1a2e44; }
+  .risk-desc { font-size: 13px; color: #8a9ab0; }
+
+  .score-bar-bg { background: #edf0f4; border-radius: 99px; height: 8px; }
+  .score-bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s ease; }
+
+  .score-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #b0bbc8;
+    margin-top: 7px;
+  }
+
+  .actions-section { padding: 24px 32px; }
+
+  .actions-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #8a9ab0;
+    margin-bottom: 16px;
+  }
+
+  .action-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid #f0f3f7;
+    font-size: 14px;
+    color: #1a2e44;
+    line-height: 1.55;
+  }
+
+  .action-item:first-of-type { border-top: none; }
+
+  .action-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .action-icon svg { width: 14px; height: 14px; fill: none; stroke-width: 2; }
+
+  .abcde-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #eaecf0;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+
+  .abcde-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a2e44;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .abcde-title svg { width: 16px; height: 16px; stroke: #6b7a8d; fill: none; stroke-width: 2; }
+
+  .abcde-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+
+  .abcde-item {
+    background: #f7f9fc;
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+  }
+
+  .abcde-letter { font-size: 18px; font-weight: 500; color: #1a2e44; margin-bottom: 4px; }
+  .abcde-word { font-size: 11px; font-weight: 500; color: #4a6080; margin-bottom: 4px; }
+  .abcde-desc { font-size: 10px; color: #8a9ab0; line-height: 1.4; }
+
+  .disclaimer {
+    background: #fef9ec;
+    border: 1px solid #f8e7a0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #7a6523;
+    line-height: 1.7;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .disclaimer svg { flex-shrink: 0; margin-top: 2px; width: 15px; height: 15px; stroke: #b8962a; fill: none; stroke-width: 2; }
+
+  .btn-dashboard {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #1a2e44;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-dashboard:hover { background: #243f5c; color: #fff; transform: translateY(-1px); text-decoration: none; }
+  .btn-dashboard svg { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Derma<span>Scan</span></div>
+</header>
+
+<main>
+  <div class="page-title">Évaluation du risque</div>
+  <div class="page-sub">Basée sur le diagnostic IA et le questionnaire symptomatique.</div>
+
+  <!-- Risk summary card -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-level-label">Niveau de risque global</div>
+      <div class="risk-verdict">
+        <div class="risk-dot" style="background: {{ risk_color }}"></div>
+        <div>
+          <div class="risk-name">{{ risk_level }}</div>
+          <div class="risk-desc">{{ risk_desc }}</div>
+        </div>
+      </div>
+      <div class="score-bar-bg">
+        <div class="score-bar-fill" style="width: {{ risk_pct }}%; background: {{ risk_color }}"></div>
+      </div>
+      <div class="score-legend">
+        <span>Faible</span>
+        <span>Modéré</span>
+        <span>Élevé</span>
+      </div>
+    </div>
+    <div class="actions-section">
+      <div class="actions-title">Actions recommandées</div>
+      {% for action in actions %}
+      <div class="action-item">
+        <div class="action-icon" style="background: {{ action.bg }}">
+          <svg viewBox="0 0 24 24" style="stroke: {{ action.color }}">{{ action.icon | safe }}</svg>
+        </div>
+        <span>{{ action.text }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ABCDE melanoma rule -->
+  <div class="abcde-card">
+    <div class="abcde-title">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      Règle ABCDE de la mélanome
+    </div>
+    <div class="abcde-grid">
+      <div class="abcde-item">
+        <div class="abcde-letter">A</div>
+        <div class="abcde-word">Asymétrie</div>
+        <div class="abcde-desc">Les deux moitiés ne se correspondent pas</div>
+      </div>
+      <div class="abcde-item">
+        <div class="abcde-letter">B</div>
+        <div class="abcde-word">Bords</div>
+        <div class="abcde-desc">Irréguliers, dentelés ou mal définis</div>
+      </div>
+      <div class="abcde-item">
+        <div class="abcde-letter">C</div>
+        <div class="abcde-word">Couleur</div>
+        <div class="abcde-desc">Teintes multiples ou inégales</div>
+      </div>
+      <div class="abcde-item">
+        <div class="abcde-letter">D</div>
+        <div class="abcde-word">Diamètre</div>
+        <div class="abcde-desc">Plus grand que 6 mm (gomme de crayon)</div>
+      </div>
+      <div class="abcde-item">
+        <div class="abcde-letter">E</div>
+        <div class="abcde-word">Évolution</div>
+        <div class="abcde-desc">Tout changement récent de taille ou couleur</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>Cette évaluation est un outil d'aide au dépistage préliminaire uniquement. Elle ne remplace pas le diagnostic d'un dermatologue ou d'un médecin qualifié. En cas de doute, consultez un professionnel de santé sans attendre.</span>
+  </div>
+
+  <a class="btn-dashboard" href="/dashboard">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Retour au tableau de bord
+  </a>
+</main>
+
+</body>
+</html>

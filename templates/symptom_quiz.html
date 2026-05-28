@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DermaScan — Questionnaire clinique</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f7f5f0; min-height: 100vh; }
+
+  header {
+    background: #fff;
+    border-bottom: 1px solid #eaecf0;
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .brand { font-family: 'DM Serif Display', serif; font-size: 18px; color: #1a2e44; }
+  .brand span { color: #6fcf97; }
+  .header-sep { color: #d0dae6; font-size: 18px; }
+
+  .context-pill {
+    font-size: 12px;
+    background: #fff0f0;
+    color: #c93c3c;
+    border: 1px solid #fad5d5;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+
+  .context-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: #e05555; }
+
+  main { max-width: 600px; margin: 52px auto; padding: 0 24px; }
+
+  .page-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: #1a2e44; margin-bottom: 6px; }
+  .page-sub { font-size: 13px; color: #8a9ab0; margin-bottom: 36px; }
+
+  .prog-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #8a9ab0;
+    margin-bottom: 8px;
+  }
+
+  .prog-bar-bg { background: #edf0f4; border-radius: 99px; height: 5px; margin-bottom: 32px; }
+  .prog-bar-fill { height: 100%; border-radius: 99px; background: #1a2e44; transition: width 0.4s ease; }
+
+  .q-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #eaecf0;
+    padding: 32px 28px;
+    margin-bottom: 20px;
+  }
+
+  .q-icon {
+    width: 42px; height: 42px;
+    background: #edf1f7;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .q-icon svg { width: 20px; height: 20px; stroke: #6b7a8d; fill: none; stroke-width: 1.8; }
+
+  .q-text { font-size: 17px; font-weight: 500; color: #1a2e44; line-height: 1.4; margin-bottom: 6px; }
+  .q-hint { font-size: 12px; color: #a0adb9; margin-bottom: 24px; }
+
+  .opts { display: flex; flex-direction: column; gap: 10px; }
+
+  .opt-btn {
+    padding: 13px 18px;
+    border: 1px solid #e0e6ed;
+    border-radius: 11px;
+    background: #fafbfc;
+    font-size: 14px;
+    color: #1a2e44;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .opt-btn:hover { border-color: #1a2e44; background: #f4f7fb; }
+  .opt-btn.selected { border-color: #1a2e44; background: #1a2e44; color: #fff; }
+
+  .opt-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid #c0cdd9;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .opt-btn.selected .opt-dot { border-color: #fff; background: #fff; }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  .btn-back-q {
+    font-size: 13px;
+    color: #8a9ab0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 0;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.15s;
+  }
+
+  .btn-back-q:hover { color: #1a2e44; }
+
+  .btn-next {
+    padding: 12px 28px;
+    background: #1a2e44;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s, opacity 0.2s;
+  }
+
+  .btn-next:disabled { opacity: 0.35; cursor: default; }
+  .btn-next:not(:disabled):hover { background: #243f5c; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Derma<span>Scan</span></div>
+  <span class="header-sep">/</span>
+  <div class="context-pill">
+    <span class="dot"></span>
+    Résultat : {{ result }} ({{ prob }}%)
+  </div>
+</header>
+
+<main>
+  <div class="page-title">Questionnaire clinique</div>
+  <div class="page-sub">Répondez à quelques questions pour affiner l'évaluation du risque.</div>
+
+  <div class="prog-label">
+    <span id="step-label">Question 1 sur 7</span>
+    <span id="pct-label">14%</span>
+  </div>
+  <div class="prog-bar-bg">
+    <div class="prog-bar-fill" id="prog" style="width: 14%"></div>
+  </div>
+
+  <div class="q-card" id="q-card">
+    <div class="q-icon"><svg id="q-svg" viewBox="0 0 24 24"></svg></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-hint" id="q-hint"></div>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <div class="nav">
+    <button class="btn-back-q" id="btn-back" onclick="goBack()">← Précédent</button>
+    <button class="btn-next" id="btn-next" disabled onclick="goNext()">Suivant →</button>
+  </div>
+
+  <form method="POST" action="/submit_quiz" id="quiz-form" style="display:none">
+    <input type="hidden" name="analysis_id" value="{{ analysis_id }}" />
+    <input type="hidden" id="f-growth"    name="growth" />
+    <input type="hidden" id="f-itching"   name="itching" />
+    <input type="hidden" id="f-bleeding"  name="bleeding" />
+    <input type="hidden" id="f-pain"      name="pain" />
+    <input type="hidden" id="f-color"     name="color_change" />
+    <input type="hidden" id="f-border"    name="irregular_border" />
+    <input type="hidden" id="f-systemic"  name="systemic_symptoms" />
+    <input type="hidden" id="f-score"     name="risk_score" />
+  </form>
+</main>
+
+<script>
+const questions = [
+  {
+    icon: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>',
+    text: "La lésion a-t-elle changé de taille récemment ?",
+    hint: "Comparez avec il y a 3 à 6 mois",
+    opts: ["Oui, elle a grandi", "Non, stable", "Je ne suis pas sûr(e)"],
+    scores: [3, 0, 1],
+    field: "f-growth",
+    values: ["Yes", "No", "Unsure"]
+  },
+  {
+    icon: '<path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 8v4"/><path d="M12 16h.01"/>',
+    text: "Observez-vous des démangeaisons sur ou autour de la lésion ?",
+    hint: "Même légères ou occasionnelles",
+    opts: ["Oui, fréquentes", "Parfois", "Non"],
+    scores: [2, 1, 0],
+    field: "f-itching",
+    values: ["Yes", "Sometimes", "No"]
+  },
+  {
+    icon: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+    text: "Y a-t-il eu des saignements, même mineurs ?",
+    hint: "Y compris après contact ou frottement",
+    opts: ["Oui", "Non"],
+    scores: [4, 0],
+    field: "f-bleeding",
+    values: ["Yes", "No"]
+  },
+  {
+    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    text: "Ressentez-vous une douleur ou une sensibilité au niveau de la lésion ?",
+    hint: "Incluant une légère sensibilité au toucher",
+    opts: ["Oui, douloureuse", "Légèrement sensible", "Non"],
+    scores: [2, 1, 0],
+    field: "f-pain",
+    values: ["Yes", "Slightly", "No"]
+  },
+  {
+    icon: '<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>',
+    text: "La couleur de la lésion est-elle irrégulière ou a-t-elle changé ?",
+    hint: "Zones plus sombres, rougeurs, teintes multiples",
+    opts: ["Oui, plusieurs couleurs", "Légèrement inégale", "Non, uniforme"],
+    scores: [3, 1, 0],
+    field: "f-color",
+    values: ["Yes", "Slightly", "No"]
+  },
+  {
+    icon: '<circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/>',
+    text: "Les bords de la lésion sont-ils irréguliers ou dentelés ?",
+    hint: "Bords flous ou en forme de crêtes",
+    opts: ["Oui, très irréguliers", "Légèrement", "Non, bords nets"],
+    scores: [2, 1, 0],
+    field: "f-border",
+    values: ["Yes", "Slightly", "No"]
+  },
+  {
+    icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+    text: "Avez-vous remarqué une fatigue inhabituelle ou une perte de poids récemment ?",
+    hint: "Symptômes systémiques possiblement associés",
+    opts: ["Oui, les deux", "L'un ou l'autre", "Non"],
+    scores: [2, 1, 0],
+    field: "f-systemic",
+    values: ["Both", "One", "No"]
+  }
+];
+
+let current = 0;
+let answers = Array(questions.length).fill(null);
+let selected = null;
+
+function render() {
+  const q = questions[current];
+  const pct = Math.round((current + 1) / questions.length * 100);
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('step-label').textContent = 'Question ' + (current + 1) + ' sur ' + questions.length;
+  document.getElementById('pct-label').textContent = pct + '%';
+  document.getElementById('q-svg').innerHTML = q.icon;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-hint').textContent = q.hint;
+  selected = answers[current];
+  const opts = document.getElementById('opts');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt-btn' + (selected === i ? ' selected' : '');
+    b.innerHTML = '<span class="opt-dot"></span>' + o;
+    b.onclick = () => pick(i);
+    opts.appendChild(b);
+  });
+  document.getElementById('btn-back').style.visibility = current === 0 ? 'hidden' : 'visible';
+  document.getElementById('btn-next').disabled = selected === null;
+  document.getElementById('btn-next').textContent = current === questions.length - 1 ? 'Voir le résultat →' : 'Suivant →';
+}
+
+function pick(i) {
+  selected = i;
+  answers[current] = i;
+  document.querySelectorAll('.opt-btn').forEach((b, j) => b.classList.toggle('selected', j === i));
+  document.getElementById('btn-next').disabled = false;
+}
+
+function goNext() {
+  if (selected === null) return;
+  if (current < questions.length - 1) {
+    current++;
+    render();
+  } else {
+    submitQuiz();
+  }
+}
+
+function goBack() {
+  if (current > 0) { current--; render(); }
+}
+
+function submitQuiz() {
+  let score = 0;
+  answers.forEach((a, i) => {
+    const q = questions[i];
+    if (a !== null) {
+      score += q.scores[a];
+      document.getElementById(q.field).value = q.values[a];
+    }
+  });
+  document.getElementById('f-score').value = score;
+  document.getElementById('quiz-form').submit();
+}
+
+render();
+</script>
+
+</body>
+</html>
