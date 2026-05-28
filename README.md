@@ -10,7 +10,7 @@
 
 | Tableau de bord | Connexion | Résultat IA |
 |-----------------|-----------|-------------|
-| ![Dashboard](docs/screenshots/dashboard/dashboard_page.png) | ![Login](docs/screenshots/login_et_inscription/login.png) | ![Résultat](docs/screenshots/resultat_et_quiz/result.png) |
+| ![Dashboard](docs/screenshots/dashboard/dashboard_page.png) | ![Login](docs/screenshots/login_et_inscription/login_page.png) | ![Résultat](docs/screenshots/resultat_et_quiz/mlignant_result.png) |
 
 ---
 
@@ -132,7 +132,7 @@ PROJET AI/
 │   │       ├── questions_du_quiz/
 │   │       ├── resultat_du_quiz/
 │   │       ├── benign_result.png
-│   │       └── malignant_result.png
+│   │       └── mlignant_result.png
 │   └── demo.mp4
 │
 ├── model/
