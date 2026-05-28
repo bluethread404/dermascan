@@ -208,15 +208,15 @@ db = mysql.connector.connect(
 
 ##  Lancement de l’application
 
-```bash
+
 python app.py
-```
+
 
 Puis accéder à :
 
-```
+
 http://localhost:5000
-```
+
 
 ---
 
@@ -254,4 +254,4 @@ Il ne remplace en aucun cas un diagnostic médical professionnel.
 ##  Licence
 
 Projet réalisé à des fins éducatives et académiques.
-```
+
