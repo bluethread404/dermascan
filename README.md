@@ -162,7 +162,6 @@ PROJET AI/
 ```
 
 ---
-You can add this section right after **“4. Ajouter le modèle IA”** in your README:
 
 ##  Télécharger le modèle IA
 
@@ -174,10 +173,7 @@ Après téléchargement, placez le fichier `.h5` dans le dossier suivant :
 ```bash
 model/vgg16_skin_cancer.h5
 ```
-
 > Le modèle est hébergé séparément du dépôt GitHub en raison de sa taille.
-
-This integrates cleanly with your existing French README style.
 
 
 ##  Installation
